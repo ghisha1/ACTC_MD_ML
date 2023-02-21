@@ -6,7 +6,6 @@
 
 Datasets and code to accompany "Determining ion activity coefficients in ion-exchange membranes with machine learning and molecular dynamic"s. Available at link here
 
-#Run and call other methods in fuelcell.py and membrane.py from main.py
 
 If you find this code useful in your research, please consider citing:
 
