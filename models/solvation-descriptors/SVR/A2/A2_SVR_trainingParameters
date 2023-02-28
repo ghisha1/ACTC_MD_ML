@@ -1,0 +1,75 @@
+Model SVR - Data A1
+
+1.  Target = "gr_minima_Ion_H2O"
+    tag = 'A'
+
+{'C': 99.7913788312831, 'epsilon': 0.010000978096288074}
+
+2.  Target = "gr_peak_position_Ion_H2O"
+    tag = 'B'
+
+{'C': 99.99999998811303, 'epsilon': 0.17512420038873544}
+
+3.  Target = "gr_peak_height_Ion_H2O"
+    tag = 'C'
+
+{'C': 6.054757071164312, 'epsilon': 0.010000978096412316}
+
+
+4.  Target = "Nr_Ion_H2O"
+    tag = 'D'
+    
+{'C': 18.085370344807227, 'epsilon': 0.010000030373372354}
+
+5.  Target = "gr_minima_CG_H2O" 
+    Tag = 'E'
+
+{'C': 10.725048965420253, 'epsilon': 0.012508416989178928}
+
+6.  Target = "gr_peak_position_CG_H2O"
+    tag = 'F'
+
+{'C': 27.27134639916378, 'epsilon': 0.01053757613756444}
+
+7.  Target = "gr_peak_height_CG_H2O"
+    tag = 'G'
+
+{'C': 99.97843677098221, 'epsilon': 0.022652898355930727}
+
+8.  Target = "Nr_CG_H2O_"
+    tag = 'H'
+
+{'C': 98.5964490571763, 'epsilon': 0.02650255452498977}
+
+9.  Target = "gr_minima_CG_Ion"
+    tag = 'I'
+{'C': 74.18518083703698, 'epsilon': 0.13465803155091277}
+
+
+10. Target = "gr_peak_position_CG_Ion"
+    tag = 'J'
+{'C': 2.579102525874889, 'epsilon': 0.040924987618429616}
+
+
+11. Target = "gr_peak_height_CG_Ion"
+    tag = 'K'
+    
+ {'C': 8.98403627358133, 'epsilon': 0.0416662424010126}
+
+
+12. Target = "Nr_CG_Ion"
+    tag = 'L'
+
+{'C': 99.99999798887598, 'epsilon': 0.017020045962292868}
+
+13. Target = "Diff_H2O_per_DH2O_inf"
+    tag = 'M'
+
+{'C': 97.4083159606041, 'epsilon': 0.023214403501835706}
+
+14. Target = "Diff_Ion_per_DH2O_inf"
+    tag = 'N'
+    
+ {'C': 35.403533648263185, 'epsilon': 0.010001621395121793}
+
+        
