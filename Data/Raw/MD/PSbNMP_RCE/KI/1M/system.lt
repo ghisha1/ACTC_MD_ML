@@ -1,0 +1,14 @@
+import "random_9_mer.lt"
+import "I.lt"
+import "K.lt"
+import "water.lt"
+write_once("Data Boundary") {
+   -0.5  40.5  xlo xhi
+   -0.5  40.5  ylo yhi
+   -0.5  40.5  zlo zhi
+}
+solute = new Random[17]
+I = new I[91]
+K = new K[40]
+water = new water[306]
+
