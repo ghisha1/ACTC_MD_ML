@@ -1,0 +1,21 @@
+import "../../../INPUT/charge/resp/final_charge/PVAS_rcp_6units.lt"      # <- defines the "polymer" molecule type.
+import "../../../../bcp/INPUT/lt-files/waterGAFF.lt"    # <- defines the "H20" molecule type.
+import "../../../../bcp/INPUT/lt-files/NaionGAFF2.lt" 		# <- defines the "Na+" molecule type.
+import "../../../../bcp/INPUT/lt-files/ClionGAFF2.lt"
+
+# Periodic boundary conditions:
+write_once("Data Boundary") {
+   -0.05  40.05  xlo xhi
+   -0.05  40.05  ylo yhi
+   -0.05  40.05  zlo zhi
+}
+
+molecules = new polymer[17]
+
+waters	  = new water[1700]
+
+NAions	  = new Na[59]
+
+Clions    = new Cl[8]
+
+

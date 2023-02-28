@@ -1,0 +1,29 @@
+#
+# A mixture of polymer, and water
+#
+# All the atoms from different molecules will be separated at least 2.0 Angstroms at the solution.
+
+tolerance 2.0
+
+# The file type of input and output files is PDB
+
+filetype pdb
+
+# The name of the output file
+
+output bcp_XL_AMPS_PEGDA_n4_45pt_6units_17RP_0.3M_NaCl.pdb
+
+structure ../../INPUT/moltemplate/packmol/bcp_XL_AMPS_PEGDA_n4_45percent_6units_17RP.pdb
+  number 1
+  inside box 0. 0. 0. 45. 45. 45.
+  end structure
+
+structure ../../INPUT/moltemplate/packmol/ions/Sodium.pdb
+  number 80
+  inside box 0. 0. 0. 45. 45. 45.
+  end structure
+
+structure ../../INPUT/moltemplate/packmol/ions/Chlorine.pdb
+  number 12
+  inside box 0. 0. 0. 45. 45. 45.
+  end structure

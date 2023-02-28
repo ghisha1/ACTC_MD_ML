@@ -1,0 +1,19 @@
+import "../../INPUT/moltemplate/opt-charge/ESP/resp/XL_AMPS_PEGDA_n4_9percent_bcp_6unit.lt" # polymer molecule
+import "/Users/admin/Documents/md-tutorials/lammps-tutorial/molecule-building/polyvinyl_alchol_sulfate/bcp/INPUT/lt-files/waterGAFF.lt"
+import "/Users/admin/Documents/md-tutorials/lammps-tutorial/molecule-building/polyvinyl_alchol_sulfate/bcp/INPUT/lt-files/NaionGAFF2.lt"                      # <- defines the "ion" molecule type.
+import "/Users/admin/Documents/md-tutorials/lammps-tutorial/molecule-building/polyvinyl_alchol_sulfate/bcp/INPUT/lt-files/CLionGAFF2.lt"
+
+# Periodic boundary conditions:
+write_once("Data Boundary") {
+   -0.05  43.05  xlo xhi
+   -0.05  43.05  ylo yhi
+   -0.05  43.05  zlo zhi
+}
+
+polymers  = new polymer[17]
+
+waters	  = new water[901]
+
+Nas       = new Na[29]
+
+Cls       = new Cl[12]
