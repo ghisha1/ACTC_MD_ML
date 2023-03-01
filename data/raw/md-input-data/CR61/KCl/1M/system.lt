@@ -1,0 +1,14 @@
+import "CR61.lt"
+import "K.lt"
+import "Cl.lt"
+import "water.lt"
+write_once("Data Boundary") {
+   -0.5  40.5  xlo xhi
+   -0.5  40.5  ylo yhi
+   -0.5  40.5  zlo zhi
+}
+solute = new CR61[17]
+K = new K[91]
+Cl = new Chloride[40]
+water = new water[1071]
+
