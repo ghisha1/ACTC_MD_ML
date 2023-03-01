@@ -1,0 +1,14 @@
+import "AR103.lt"
+import "sodium.lt"
+import "Cl.lt"
+import "water.lt"
+write_once("Data Boundary") {
+   -0.5  40.5  xlo xhi
+   -0.5  40.5  ylo yhi
+   -0.5  40.5  zlo zhi
+}
+solute = new AR103[17]
+Na = new sodium[13]
+Cl = new Chloride[64]
+water = new water[816]
+
