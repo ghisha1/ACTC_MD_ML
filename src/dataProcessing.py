@@ -222,7 +222,7 @@ class DataPreprocessing():
         return (X01_MF, y01_MF, reverse_fingerprints) #return (data_mmm, ohe_ions, reverse_fingerprints)
 
     # helper function to split and normalize the features (X) and target (y) data 
-    def normalizedata(self, x, y, splitRatio, state = 48, transform = False, property = None, useTrained = False):
+    def normalizedata(self, x, y, splitRatio, state = 48, transform = False, property = None):
         """
         params: x & y are input and target
         return: if True, normalize x and y else split only.
@@ -233,16 +233,11 @@ class DataPreprocessing():
 
         # transform data
         if transform == True:
-    
+            # create a scaler
+            scaler = MinMaxScaler(feature_range=(-1, 1))
             if property == 'Y':
-                if useTrained == True:
-                # fit data
-                    filename = f'../models/solvation_descriptors/min_mi1_max_pl1_scaler.pkl'
-                    scaler = pickle.load(open(filename, 'rb'))
-                else:
-                    # create a scaler
-                    scaler = MinMaxScaler(feature_range=(-1, 1))
-                    scaler.fit(y_train)
+        
+                scaler.fit(y_train)
                 # transform data
                 y_train = scaler.transform(y_train)
                 y_test  = scaler.transform(y_test)
@@ -303,18 +298,13 @@ class DataPreprocessing():
 
 
     # helper function to convert the data based on the optimal PCA number of components
-    def convertInputsPCA(self, X_train, X_test, fingerprints, type, useTrained = False):
+    def convertInputsPCA(self, X_train, X_test, fingerprints, type):
         
         if type == 'MDFP':
             # fit
-            if useTrained == True:
-                # fit data
-                    filename = f'../models/solvation_descriptors/pca_scaler_MDFP_A1.pkl'
-                    pca = pickle.load(open(filename, 'rb'))
-            else:
-                pca = PCA(n_components=10) 
-                length_MDFP = fingerprints.shape[1]
-                pca.fit(X_train.iloc[:, :length_MDFP])
+            pca = PCA(n_components=10) 
+            length_MDFP = fingerprints.shape[1]
+            pca.fit(X_train.iloc[:, :length_MDFP])
             # predict
             pca_X01_MF_train_onlyMDFP = pca.transform(X_train.iloc[:, :length_MDFP])
             pca_X01_MF_test_onlyMDFP  = pca.transform(X_test.iloc[:, :length_MDFP])
@@ -332,13 +322,8 @@ class DataPreprocessing():
         
         if type == 'All':
             # fit
-            if useTrained == True:
-                # fit data
-                filename = f'../models/solvation_descriptors/pca_scaler_ALL_A2.pkl'
-                pca = pickle.load(open(filename, 'rb'))
-            else:
-                pca = PCA(n_components=10)
-                pca.fit(X_train)
+            pca = PCA(n_components=10)
+            pca.fit(X_train)
             # predict
             pca_X01_MF_train_ = pca.transform(X_train)
             pca_X01_MF_test_ = pca.transform(X_test)

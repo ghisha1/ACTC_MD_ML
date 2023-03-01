@@ -60,7 +60,7 @@ class trainedMODELs():
         axs[1, 0].grid(False); axs[1, 1].grid(False)
         axs[2, 0].grid(False); axs[2, 1].grid(False)
 
-        ytrain = ytrain.iloc[:, :ytrain.shape[1] - 2]; ytest = ytest.iloc[:, :ytest.shape[1] - 2]
+        ytrain = ytrain.iloc[:, :ytrain.shape[1]]; ytest = ytest.iloc[:, :ytest.shape[1]]
         
         box_00 = axs[0, 0].boxplot((np.abs(ytrain.to_numpy() - ytrain_pred_list[0].to_numpy())), patch_artist = True, notch = False, showfliers = False)
         box_01 = axs[0, 1].boxplot((np.abs(ytest.to_numpy() - ytest_pred_list[0].to_numpy())), patch_artist = True, notch = False, showfliers = False)
