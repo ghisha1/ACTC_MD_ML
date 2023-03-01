@@ -1,0 +1,82 @@
+Model SVR - Data A1
+
+1.  Target = "gr_minima_Ion_H2O"
+    tag = 'A'
+(array([{'C': 64.35479900463348, 'epsilon': 0.010003882957391708},
+        {'C': 64.47154229830419, 'epsilon': 0.01000228014677585}], ***
+       dtype=object))
+
+2.  Target = "gr_peak_position_Ion_H2O"
+    tag = 'B'
+(array([{'C': 48.04184148503212, 'epsilon': 0.010175090662687663}, ***
+        {'C': 48.02709482655938, 'epsilon': 0.014718351573980111}],
+       dtype=object))
+
+3.  Target = "gr_peak_height_Ion_H2O"
+    tag = 'C'
+(array([{'C': 99.99099091337611, 'epsilon': 0.01000004097769646}], ***
+       dtype=object))
+
+
+4.  Target = "Nr_Ion_H2O"
+    tag = 'D'
+(array([{'C': 96.98844676184392, 'epsilon': 0.010066314090029232}, ***
+        {'C': 95.6109816643846, 'epsilon': 0.9776053404784616}],
+       dtype=object))
+
+
+5.  Target = "gr_minima_CG_H2O" 
+    Tag = 'E'
+(array([{'C': 91.67367090653744, 'epsilon': 0.03255308602456882},
+        {'C': 99.52606275140691, 'epsilon': 0.03255308602456882}], ***
+       dtype=object))
+
+
+6.  Target = "gr_peak_position_CG_H2O"
+    tag = 'F'
+    C = 10.1, epsilon = 0.1 # Not tuned
+
+7.  Target = "gr_peak_height_CG_H2O"
+    tag = 'G'
+(array([{'C': 21.843834337020795, 'epsilon': 0.034655440536217524},
+        {'C': 98.5264943419995, 'epsilon': 0.034295105477583396}], ***
+       dtype=object))
+
+8.  Target = "Nr_CG_H2O_"
+    tag = 'H'
+(array([{'C': 69.28860726687357, 'epsilon': 0.05262510779464086},
+        {'C': 63.008328281260276, 'epsilon': 0.05262510779464086}], ***
+       dtype=object))
+
+9.  Target = "gr_minima_CG_Ion"
+    tag = 'I'
+(array([{'C': 4.399615493820341, 'epsilon': 0.03450801481327148}, ***
+        {'C': 1.3710264394769127, 'epsilon': 0.010000000000000208}],
+       dtype=object))
+
+10. Target = "gr_peak_position_CG_Ion"
+    tag = 'J'
+    C = 10, epsilon = 0.010000004194530414 # tuned but not optimal
+
+11. Target = "gr_peak_height_CG_Ion"
+    tag = 'K'
+(array([{'C': 28.777939982942147, 'epsilon': 0.08840265011707837},
+        {'C': 41.69278239423386, 'epsilon': 0.08840265011707837}], ***
+       dtype=object))
+
+12. Target = "Nr_CG_Ion"
+    tag = 'L'
+(array([{'C': 43.77635261824154, 'epsilon': 0.11241186343411913}, ***
+        {'C': 60.19043506898542, 'epsilon': 0.099034311374489}],
+       dtype=object))
+
+13. Target = "Diff_H2O_per_DH2O_inf"
+    tag = 'M'
+(array([{'C': 99.99110858454256, 'epsilon': 0.010000739545546377}, ***
+        {'C': 99.99717515610944, 'epsilon': 0.01000073954724474}],
+       dtype=object))
+
+14. Target = "Diff_Ion_per_DH2O_inf"
+    tag = 'N'
+(array([{'C': 20.839214905188932, 'epsilon': 0.09162109218452912},  ***
+        {'C': 12.303257571490203, 'epsilon': 0.10173403790692442})

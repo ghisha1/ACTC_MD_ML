@@ -1,0 +1,20 @@
+import "../../lt_files/PSbP2VP_NMP_6units.lt"      # <- defines the "polymer" molecule type.
+import "../../lt_files/water.lt"    # <- defines the "H20" molecule type.
+import "../../lt_files/Iion.lt" 		# <- defines the "I-" molecule type.
+import "../../lt_files/Kion.lt"     # <- defines the "K+" molecule type.
+
+# Periodic boundary conditions:
+write_once("Data Boundary") {
+   -0.05  40.05  xlo xhi
+   -0.05  40.05  ylo yhi
+   -0.05  40.05  zlo zhi
+}
+
+molecules = new polymer[17]
+
+waters	  = new water[306]
+
+Iions	  = new Iion[71]
+
+Kions     = new Kion[20]
+

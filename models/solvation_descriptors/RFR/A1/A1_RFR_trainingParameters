@@ -1,0 +1,77 @@
+
+Model RFR - A1
+
+max_features_idx           = ['auto', 'sqrt', 'log2', None]
+bootstrap_idx              = [True, False]
+
+1.  Target = "gr_minima_Ion_H2O"
+	tag = A
+
+{'bootstrap': 1, 'max_depth': 26, 'n_estimators': 19, 'max_features': 1, 'min_weight_fraction_leaf': 0.00795397895197096}
+
+2.  Target = "gr_peak_position_Ion_H2O"
+	tag = B
+
+{'bootstrap': 1, 'max_depth': 14, 'n_estimators': 9, 'max_features': 1, 'min_weight_fraction_leaf': 0.01484008745093008}]
+
+3.  Target = "gr_peak_height_Ion_H2O" 
+	tag = C
+
+{'bootstrap': 1, 'max_depth': 7, 'n_estimators': 6, 'max_features': 1, 'min_weight_fraction_leaf': 0.004524532632581124}
+
+4.  Target = "Nr_Ion_H2O"
+	tag = D
+
+{'bootstrap': 1, 'max_depth': 24, 'n_estimators': 72, 'max_features': 1, 'min_weight_fraction_leaf': 0.013425088830342768}
+
+5.  Target = "gr_minima_CG_H2O"
+	tag = E
+
+{'bootstrap': 1, 'max_depth': 8, 'n_estimators': 32, 'max_features': 0, 'min_weight_fraction_leaf': 0.016189384489770954}
+
+6.  Target = "gr_peak_position_CG_H2O"
+	tag = F
+
+{'bootstrap': 1, 'max_depth': 3, 'n_estimators': 82, 'max_features': 1, 'min_weight_fraction_leaf': 0.0010877551296711093}
+
+7.  Target = "gr_peak_height_CG_H2O"
+tag = G
+
+{'bootstrap': 1, 'max_depth': 18, 'n_estimators': 68, 'max_features': 1, 'min_weight_fraction_leaf': 0.0371294696894778}
+
+8.  Target = "Nr_CG_H2O_"
+tag = H
+
+{'bootstrap': 1, 'max_depth': 88, 'n_estimators': 76, 'max_features': 3, 'min_weight_fraction_leaf': 0.021828942438358874}
+
+9.  Target = "gr_minima_CG_Ion"
+tag = I
+
+{'bootstrap': 1, 'max_depth': 10, 'n_estimators': 16, 'max_features': 1, 'min_weight_fraction_leaf': 0.002681549998540795}
+
+10.  Target = "gr_peak_position_CG_Ion"
+	tag = J 
+
+{'bootstrap': 1, 'max_depth': 11, 'n_estimators': 8, 'max_features': 1, 'min_weight_fraction_leaf': 0.011991000206708045}
+
+11.  Target = "gr_peak_height_CG_Ion"
+tag = K
+
+{'bootstrap': 1, 'max_depth': 15, 'n_estimators': 68, 'max_features': 1, 'min_weight_fraction_leaf': 0.033270099737470915}
+
+12.  Target = "Nr_CG_Ion"
+tag = L
+
+{'bootstrap': 1, 'max_depth': 13, 'n_estimators': 3, 'max_features': 1, 'min_weight_fraction_leaf': 0.01466951667314724}
+
+13.  Target = "Diff_H2O_per_DH2O_inf"
+
+tag = M
+
+{'bootstrap': 1, 'max_depth': 10, 'n_estimators': 9, 'max_features': 1, 'min_weight_fraction_leaf': 0.003575034308844968}
+
+14.  Target = "Diff_Ion_per_DH2O_inf"
+tag = N
+
+{'bootstrap': 1, 'max_depth': 14, 'n_estimators': 13, 'max_features': 1, 'min_weight_fraction_leaf': 0.010291661161500114}
+
