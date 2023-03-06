@@ -27,7 +27,7 @@ IPythonConsole.drawOptions.addAtomIndices = True
 class DataPreprocessing():
     """
 
-        Contains methods for data acquisition and preprocessing 
+        Contains methods for data acquisition and preprocessing
 
     """
     def __init__(self) -> None:
@@ -36,7 +36,7 @@ class DataPreprocessing():
     def data_load(self, filename: str):
         """
         It takes a file name, a sheet name, and a list of columns as arguments, and returns a dataframe
-        
+
         :param filename: str = name of the file
         :type filename: str
         :param sheetname: The name of the sheet in the excel file, defaults to 0 (optional)
@@ -63,7 +63,7 @@ class DataPreprocessing():
         os.chdir('../../notebooks')
 
         return self.data
-    
+
     # helper function to compute the Tanimoto similarity between structures
     def computeTanimotoSimilarity(self, dict, method):
         """
@@ -73,9 +73,9 @@ class DataPreprocessing():
         """
         # results
         results = pd.DataFrame({}, columns = dict.keys(), index = dict.keys(), dtype=float)
-        
+
         # fill the result
-        if dict is None: 
+        if dict is None:
             return print("dictionary is empty")
         else:
             for (nameA, molA) in dict.items():
@@ -92,8 +92,8 @@ class DataPreprocessing():
                             results.loc[nameA, nameB] = round(DataStructs.DiceSimilarity(fpA, fpB), 3)
                         if method == 'Tanimoto':
                             results.loc[nameA, nameB] = round(DataStructs.TanimotoSimilarity(fpA, fpB), 3)
-                        
-                            
+
+
         return results
 
     # helper function to plot the similarity between structures
@@ -104,7 +104,7 @@ class DataPreprocessing():
         """
         # set fontsize
         plt.rcParams.update({'font.size': 15})
-        
+
         # generate heatmap
         f, ax = plt.subplots(figsize=(15, 10), dpi = 600)
         #
@@ -125,7 +125,7 @@ class DataPreprocessing():
     def get_importance_feature_map(self, df, approach):
         """
         params: DataFrame of square size
-        return: heat map 
+        return: heat map
         """
         # import library
         import string
@@ -139,10 +139,10 @@ class DataPreprocessing():
                 'gr_minima_CG_H2O', 'gr_peak_position_CG_H2O', 'gr_peak_height_CG_H2O',
                 'Nr_CG_H2O_', 'gr_minima_CG_Ion', 'gr_peak_position_CG_Ion',
                 'gr_peak_height_CG_Ion', 'Nr_CG_Ion', 'Exp_act_coeff'
-                ] 
-        
+                ]
+
         df = df[columns]
-            
+
         # create figure
         f, axs = plt.subplots(figsize=(14, 12))
         # compute correlation
@@ -150,12 +150,12 @@ class DataPreprocessing():
         mask = np.triu(np.ones_like(importance, dtype=bool))
         # plot map
         map = sns.heatmap(importance, mask = mask,  annot = True, fmt = ".2f",center = 0, linewidths = .5, ax = axs, cmap = 'tab10', cbar_kws={"shrink": 1, "pad": 0.08, "orientation": 'horizontal'}, vmin = -1, vmax = +1)
-    
+
         #
         labels = [f'{i}' for i in string.ascii_uppercase[:len(columns) - 1]] # based on Figure 6 in the manuscript
         labels.append('Exp')
         axs.set_xticklabels(labels, rotation = 90, fontsize = 12)
-        axs.set_yticklabels(labels, rotation = 360, fontsize = 12)   
+        axs.set_yticklabels(labels, rotation = 360, fontsize = 12)
         plt.show()
 
 
@@ -185,7 +185,7 @@ class DataPreprocessing():
             vects_dict[polymer] = pd.DataFrame(data = data_, columns=[f'mfp_{i}' for i in range(len(data_[0]))])
             #
             # append to dataframe
-        
+
         fingerprints01 = pd.DataFrame()
             #
         for i, polymer in enumerate(data['Name of the polymer']):
@@ -199,35 +199,31 @@ class DataPreprocessing():
 
             # drop unneeded columns
         if descr == 'solvation':
-            data_m = data.drop(columns = ['#', 'Name of the polymer', 'CounterIon', 'Co-Ion', 'salt', 'Hopping_rate_Ion',
-                                                            'Diffcoeff (Counterion), A^2/ps', "Diff_H2O_per_DH2O_inf",
-                                                            "Diff_Ion_per_DH2O_inf", 'Diffcoeff (Oxy in H2O), A^2/ps', 
+            data_m = data.drop(columns = ['#', 'Name of the polymer', 'CounterIon', 'Co-Ion', 'salt',
                                                             'Exp_act_coeff'])
         if descr == 'activity':
-            data_m = data.drop(columns = ['#', 'Name of the polymer', 'CounterIon', 'Co-Ion', 'salt', 'Hopping_rate_Ion',
-                                                        'Diffcoeff (Counterion), A^2/ps', "Diff_H2O_per_DH2O_inf",
-                                                        "Diff_Ion_per_DH2O_inf", 'Diffcoeff (Oxy in H2O), A^2/ps'])
-                
+            data_m = data.drop(columns = ['#', 'Name of the polymer', 'CounterIon', 'Co-Ion', 'salt'])
+
 
         ## merge data - data01 and machine learning model 1
         data_mm = pd.concat([ohe_df, data_m], axis=1).reset_index(drop=True)
         data_mmm = pd.concat([reverse_fingerprints, data_mm], axis=1).dropna()
 
-        # 
+        #
         x_index01 = ohe_df.shape[1] + reverse_fingerprints.shape[1] + 2 # use 1 if Water-per-ion isn't there
         X01_MF = data_mmm.iloc[:, :x_index01]
 
         y01_MF = data_mmm.iloc[:, x_index01:]
-        
+
         return (X01_MF, y01_MF, reverse_fingerprints) #return (data_mmm, ohe_ions, reverse_fingerprints)
 
-    # helper function to split and normalize the features (X) and target (y) data 
+    # helper function to split and normalize the features (X) and target (y) data
     def normalizedata(self, x, y, splitRatio, state = 48, transform = False, property = None):
         """
         params: x & y are input and target
         return: if True, normalize x and y else split only.
         """
-        
+
         # split data
         X_train, X_test,y_train, y_test = train_test_split(x, y, random_state = state, test_size = splitRatio, shuffle=True)
 
@@ -236,7 +232,7 @@ class DataPreprocessing():
             # create a scaler
             scaler = MinMaxScaler(feature_range=(-1, 1))
             if property == 'Y':
-        
+
                 scaler.fit(y_train)
                 # transform data
                 y_train = scaler.transform(y_train)
@@ -269,7 +265,7 @@ class DataPreprocessing():
     def visualize_PCA(self, x, length, type, filename):
         """ params: dataframe of the inputs, usually train data
             returns: image of variance against number of components"""
-       
+
         # set number_components
         (n_samples, n_features) = x.shape
         num_components = min(n_samples, n_features)
@@ -280,18 +276,18 @@ class DataPreprocessing():
         if type == "ALL":
             pca_x = PCA(n_components = num_components, random_state=0)
             pca_x.fit(x)
-            
+
         #  plot
         fig, axes = plt.subplots(1, 1, figsize=(5, 3), dpi = 100)
         #
         sns.set(style='whitegrid')
-            
+
         axes.plot(np.cumsum(pca_x.explained_variance_ratio_))
         axes.set_xlabel('Components', fontsize = 15); axes.set_ylabel('Variance', fontsize = 15)
         axes.tick_params(axis='x', labelsize = 13); axes.tick_params(axis='y', labelsize = 13)
-        
+
         axes.axvline(linewidth = 1, color = 'r', linestyle = '--', x = 10, ymin = 0, ymax = 1)
-        
+
         axes.grid(False)
         axes.set_xlim([0, 30])
         plt.show()
@@ -299,10 +295,10 @@ class DataPreprocessing():
 
     # helper function to convert the data based on the optimal PCA number of components
     def convertInputsPCA(self, X_train, X_test, fingerprints, type):
-        
+
         if type == 'MDFP':
             # fit
-            pca = PCA(n_components=10) 
+            pca = PCA(n_components=10)
             length_MDFP = fingerprints.shape[1]
             pca.fit(X_train.iloc[:, :length_MDFP])
             # predict
@@ -319,7 +315,7 @@ class DataPreprocessing():
             pca_X01_MF_test.drop(columns= ['index'], inplace=True)
 
             return pca_X01_MF_train, pca_X01_MF_test
-        
+
         if type == 'All':
             # fit
             pca = PCA(n_components=10)
@@ -330,5 +326,5 @@ class DataPreprocessing():
             # convert to pandas
             pca_X01_MF_train = pd.DataFrame(data = pca_X01_MF_train_, columns=[f'pca_{i}' for i in range(len(pca_X01_MF_train_[0]))])
             pca_X01_MF_test = pd.DataFrame(data = pca_X01_MF_test_, columns=[f'pca_{i}' for i in range(len(pca_X01_MF_test_[0]))])
-            
+
             return pca_X01_MF_train, pca_X01_MF_test
