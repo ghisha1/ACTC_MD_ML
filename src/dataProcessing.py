@@ -170,13 +170,12 @@ class DataPreprocessing():
         #
         #****************************************** Generate FingerPrint ************************************************#
         polymers_names = list(polymers_dict.keys())
-        polymers_names = list(polymers_dict.keys())
         #
         # Morgan Fingerprint
         fps_dict = {}
         # generate morgan fingerprints
         for polymer in polymers_names:
-            fps_dict[polymer] = AllChem.GetMorganFingerprintAsBitVect(polymers_dict[polymer], useChirality=True, radius=3, nBits=124)
+            fps_dict[polymer] = AllChem.GetMorganFingerprintAsBitVect(polymers_dict[polymer], useChirality=True, radius=3, nBits=128)
         #
         # convert descriptor dictionary into arrays
         vects_dict = {}
@@ -189,37 +188,64 @@ class DataPreprocessing():
         fingerprints01 = pd.DataFrame()
             #
         for i, polymer in enumerate(data['Name of the polymer']):
+            polymer=polymer.replace('\u200b','')
             try:
                 fingerprints01 = pd.concat([vects_dict[polymer], fingerprints01.reset_index(drop=True)], axis=0).reset_index(drop=True)
             except KeyError:
                 pass
-            #
+                    #print(fingerprints01)   #
         reverse_fingerprints = fingerprints01.iloc[::-1].reset_index(drop=True)
+        #print(fingerprints01)
+        
 
 
             # drop unneeded columns
         if descr == 'solvation':
-            data_m = data.drop(columns = ['#', 'Name of the polymer', 'CounterIon', 'Co-Ion', 'salt', 'Hopping_rate_Ion',
-                                                            'Diffcoeff (Counterion), A^2/ps', "Diff_H2O_per_DH2O_inf",
-                                                            "Diff_Ion_per_DH2O_inf", 'Diffcoeff (Oxy in H2O), A^2/ps', 
-                                                            'Exp_act_coeff'])
+            data_m = data.drop(columns = ['#', 'Name of the polymer', 'CounterIon', 'Co-Ion', 'salt',
+                                          'Exp_act_coeff'])
+            
+        
+            ## merge data - data01 and machine learning model 1
+            data_mm = pd.concat([ohe_df, data_m], axis=1).reset_index(drop=True)
+            data_mmm = pd.concat([reverse_fingerprints, data_mm], axis=1).dropna()
+               
+            x_index01 = ohe_df.shape[1] + reverse_fingerprints.shape[1] + 2 # use 1 if Water-per-ion isn't there
+            X01_MF = data_mmm.iloc[:, :x_index01]
+            Y01_MF = data_mmm.iloc[:, x_index01:]
+        
         if descr == 'activity':
-            data_m = data.drop(columns = ['#', 'Name of the polymer', 'CounterIon', 'Co-Ion', 'salt', 'Hopping_rate_Ion',
-                                                        'Diffcoeff (Counterion), A^2/ps', "Diff_H2O_per_DH2O_inf",
-                                                        "Diff_Ion_per_DH2O_inf", 'Diffcoeff (Oxy in H2O), A^2/ps'])
+            d01_y=data['Experimental activity co.']
+            data_02 = data.drop(columns = ['#', 'Name of the polymer', 'CounterIon', 'Co-Ion', 'salt'])
+            #data02_MorganDescr=data_02.replace(r'[^\w\s]|_', '', regex=True)
+            #print(data02_MorganDescr)
+            min_max_scaler = MinMaxScaler(feature_range=(-1, 1))
+            data_scaled = min_max_scaler.fit_transform(data_02)
+            data_m = pd.DataFrame(data_scaled)
+            data_m.columns = ['A', 'B','C','D','E','F','G','H','I','J','K','L','M','N','EXP']
+        
+            ## merge data - data01 and machine learning model 1
+            data_mm = pd.concat([reverse_fingerprints,ohe_df, data_m], axis=1).reset_index(drop=True)
+            #data_mmmm=data_mm.replace(r'[^\w\s]|_', '', regex=True)
+            #data_mmmm=data_mm.replace('\u200b', '')
+            #print(data_mmmm)
+            X01_MF = data_mm.iloc[:, :-1]
+            Y01_MF = d01_y
+        
                 
 
         ## merge data - data01 and machine learning model 1
-        data_mm = pd.concat([ohe_df, data_m], axis=1).reset_index(drop=True)
-        data_mmm = pd.concat([reverse_fingerprints, data_mm], axis=1).dropna()
+        #data_mm = pd.concat([ohe_df, data_m], axis=1).reset_index(drop=True)
+        #data_mmm = pd.concat([reverse_fingerprints, data_mm], axis=1).dropna()
 
         # 
-        x_index01 = ohe_df.shape[1] + reverse_fingerprints.shape[1] + 2 # use 1 if Water-per-ion isn't there
-        X01_MF = data_mmm.iloc[:, :x_index01]
+        #x_index01 = ohe_df.shape[1] + reverse_fingerprints.shape[1] + 2 # use 1 if Water-per-ion isn't there
+        #X01_MF = data_mmm.iloc[:, :x_index01]
+        #y01_MF = data_mmm.iloc[:, x_index01:]
+        #X02_MF = data_mmm.iloc[:, :-1]
+        #Y02_MF = d01_y
 
-        y01_MF = data_mmm.iloc[:, x_index01:]
         
-        return (X01_MF, y01_MF, reverse_fingerprints) #return (data_mmm, ohe_ions, reverse_fingerprints)
+        return (X01_MF, Y01_MF, reverse_fingerprints) #return (data_mmm, ohe_ions, reverse_fingerprints)
 
     # helper function to split and normalize the features (X) and target (y) data 
     def normalizedata(self, x, y, splitRatio, state = 48, transform = False, property = None):
@@ -262,11 +288,11 @@ class DataPreprocessing():
                 X_test  = X_test.set_index(y_test.index)
 
 
-        return (scaler, X_train, X_test, y_train, y_test)
+        return (scaler,X_train, X_test, y_train, y_test)
 
 
     # helper function to visualize the variance computed using the PCA
-    def visualize_PCA(self, x, length, type, filename):
+    def visualize_PCA(self, x, length, type):
         """ params: dataframe of the inputs, usually train data
             returns: image of variance against number of components"""
        
@@ -302,7 +328,7 @@ class DataPreprocessing():
         
         if type == 'MDFP':
             # fit
-            pca = PCA(n_components=10) 
+            pca = PCA(n_components=15)
             length_MDFP = fingerprints.shape[1]
             pca.fit(X_train.iloc[:, :length_MDFP])
             # predict
@@ -322,7 +348,7 @@ class DataPreprocessing():
         
         if type == 'All':
             # fit
-            pca = PCA(n_components=10)
+            pca = PCA(n_components=15)
             pca.fit(X_train)
             # predict
             pca_X01_MF_train_ = pca.transform(X_train)
@@ -332,3 +358,26 @@ class DataPreprocessing():
             pca_X01_MF_test = pd.DataFrame(data = pca_X01_MF_test_, columns=[f'pca_{i}' for i in range(len(pca_X01_MF_test_[0]))])
             
             return pca_X01_MF_train, pca_X01_MF_test
+
+    def plot(self,model,x_train, y_train,x_test, y_test):
+    
+        y_predicted_train = model.predict(x_train)
+        y_predicted_test = model.predict(x_test)
+    
+        plt.rcParams['figure.dpi'] = 600
+        plt.rcParams['savefig.dpi'] = 600
+        fig, ax = plt.subplots(figsize=(6, 5))
+        plt.rcParams["font.family"] = "serif"
+        plt.rcParams["font.serif"] = ["Times New Roman"]
+        ax.tick_params(axis="y", which="major",right=False,direction="in",length=5)
+        ax.tick_params(axis="x", which="major",direction="in",length=5)
+        for axis in ['top', 'bottom', 'left', 'right']:
+            ax.spines[axis].set_linewidth(1.)  # change width
+        plt.legend(loc="upper left",frameon=False)
+        plt.title(model,size=8)
+        ax.set_xlabel("Activity coefficient $_{(measured)}$",size=12, color = 'black')
+        ax.set_ylabel("Activity coefficient $_{(predicted)}$",size=12, color = 'black')
+        ax.plot(y_train,y_train,color='black',linewidth=1.5)
+        plt.scatter(y_train, y_predicted_train,facecolors='teal',edgecolors='teal',s=25, label="Train",marker = 'x')
+        plt.scatter(y_test, y_predicted_test,facecolors='red',edgecolors='gold',s=25, label="Test",marker = 'x')
+
