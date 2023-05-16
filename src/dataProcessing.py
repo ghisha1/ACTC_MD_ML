@@ -175,7 +175,10 @@ class DataPreprocessing():
         fps_dict = {}
         # generate morgan fingerprints
         for polymer in polymers_names:
-            fps_dict[polymer] = AllChem.GetMorganFingerprintAsBitVect(polymers_dict[polymer], useChirality=True, radius=3, nBits=128)
+            if descr == 'solvation':
+                fps_dict[polymer] = AllChem.GetMorganFingerprintAsBitVect(polymers_dict[polymer], useChirality=True, radius=3, nBits=124)
+            else:
+                fps_dict[polymer] = AllChem.GetMorganFingerprintAsBitVect(polymers_dict[polymer], useChirality=True, radius=3, nBits=128)
         #
         # convert descriptor dictionary into arrays
         vects_dict = {}
@@ -324,11 +327,11 @@ class DataPreprocessing():
 
 
     # helper function to convert the data based on the optimal PCA number of components
-    def convertInputsPCA(self, X_train, X_test, fingerprints, type):
+    def convertInputsPCA(self, X_train, X_test, fingerprints, n_comp, type):
         
         if type == 'MDFP':
             # fit
-            pca = PCA(n_components=15)
+            pca = PCA(n_components=n_comp)
             length_MDFP = fingerprints.shape[1]
             pca.fit(X_train.iloc[:, :length_MDFP])
             # predict
@@ -348,7 +351,7 @@ class DataPreprocessing():
         
         if type == 'All':
             # fit
-            pca = PCA(n_components=15)
+            pca = PCA(n_components=n_comp)
             pca.fit(X_train)
             # predict
             pca_X01_MF_train_ = pca.transform(X_train)
